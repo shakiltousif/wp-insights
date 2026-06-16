@@ -105,7 +105,7 @@ class Consent
                     <a href="<?php echo esc_url($this->plugin->config('privacy_url')); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
                 </p>
                 <p>
-                    <button type="submit" name="decision" value="allow_usage" class="button button-primary"><?php echo esc_html__('Share usage & diagnostic data', 'default'); ?></button>
+                    <button type="submit" name="decision" value="allow_usage" class="button button-primary"><?php echo esc_html__('Count me in', 'default'); ?></button>
                     <button type="submit" name="decision" value="skip" class="button"><?php echo esc_html__('No thanks', 'default'); ?></button>
                 </p>
             </form>
