@@ -1,0 +1,26 @@
+/* Shakvaro WP Insights — admin notice + deactivation modal (local assets only). */
+
+.shakvaro-insights-notice p { margin: .6em 0; }
+.shakvaro-insights-notice label { display: inline-block; margin: .15em 0; }
+
+.shakvaro-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.shakvaro-modal__box {
+    background: #fff;
+    max-width: 460px;
+    width: 92%;
+    padding: 22px 24px;
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+}
+.shakvaro-modal__box h3 { margin-top: 0; }
+.shakvaro-modal__reason { display: block; margin: 6px 0; }
+.shakvaro-modal__text { width: 100%; min-height: 64px; margin: 10px 0; }
+.shakvaro-modal__actions { display: flex; gap: 10px; margin-top: 8px; }

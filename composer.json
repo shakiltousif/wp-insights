@@ -1,0 +1,30 @@
+{
+    "name": "shakvaro/wp-insights",
+    "description": "Opt-in telemetry and usage analytics SDK for WordPress plugins. Privacy-first (consent required, off by default), fail-silent, and safe to bundle in many plugins via version negotiation.",
+    "type": "library",
+    "keywords": ["wordpress", "wp", "plugin", "telemetry", "analytics", "insights", "usage-tracking", "opt-in"],
+    "homepage": "https://shakvaro.cloud",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Shakil Ahamed",
+            "homepage": "https://shakvaro.cloud"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/shakiltousif/wp-insights/issues",
+        "source": "https://github.com/shakiltousif/wp-insights"
+    },
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "files": [
+            "load.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable"
+}
