@@ -3,7 +3,7 @@
     "description": "Opt-in telemetry and usage analytics SDK for WordPress plugins. Privacy-first (consent required, off by default), fail-silent, and safe to bundle in many plugins via version negotiation.",
     "type": "library",
     "keywords": ["wordpress", "wp", "plugin", "telemetry", "analytics", "insights", "usage-tracking", "opt-in"],
-    "homepage": "https://shakvaro.com",
+    "homepage": "https://shakvaro.com/wp-insights",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
