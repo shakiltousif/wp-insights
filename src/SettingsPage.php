@@ -52,8 +52,13 @@ class SettingsPage
         ?>
         <div class="wrap">
             <h1><?php echo esc_html__('Data Sharing', 'default'); ?></h1>
+            <?php
+            // Use the privacy URL of the first registered plugin (they share the page).
+            $first = current(Insights::plugins());
+            $privacy_url = $first ? $first->config('privacy_url') : 'https://shakvaro.com/wp-insights/privacy';
+            ?>
             <p><?php echo esc_html__('Control what each plugin shares with the developer. Turning data sharing off stops all collection and requests deletion of previously collected data.', 'default'); ?>
-                <a href="https://shakvaro.cloud/privacy" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
+                <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
             </p>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                 <input type="hidden" name="action" value="shakvaro_insights_settings">

@@ -48,6 +48,7 @@ add_action( 'shakvaro_wp_insights_loaded', function () {
         'api_key'        => 'pk_codecarebd_xxx',     // public key (from the backend)
         'signing_secret' => 'the_server_secret_salt', // shared HMAC value (from the backend)
         'endpoint'       => 'https://track.shakvaro.cloud',
+        'privacy_url'    => 'https://shakvaro.com/wp-insights/privacy', // shown in the consent notice
     ) )
     ->track_feature( 'gateway_bkash', function () {
         $s = get_option( 'woocommerce_ccd_bkash_settings' );

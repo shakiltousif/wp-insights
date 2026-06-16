@@ -32,6 +32,7 @@ class Plugin
             'plugin_file' => '',
             'api_key' => '',
             'endpoint' => 'https://track.shakvaro.cloud',
+            'privacy_url' => 'https://shakvaro.com/wp-insights/privacy',
             'textdomain' => 'default',
         ), $config);
 

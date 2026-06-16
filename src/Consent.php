@@ -109,7 +109,7 @@ class Consent
                 <p>
                     <button type="submit" name="decision" value="allow" class="button button-primary"><?php echo esc_html__('Allow selected', 'default'); ?></button>
                     <button type="submit" name="decision" value="skip" class="button"><?php echo esc_html__('Skip', 'default'); ?></button>
-                    <a href="https://shakvaro.cloud/privacy" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
+                    <a href="<?php echo esc_url($this->plugin->config('privacy_url')); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
                 </p>
             </form>
         </div>
