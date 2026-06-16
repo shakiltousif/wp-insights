@@ -101,15 +101,12 @@ class Consent
                         echo esc_html(sprintf(__('Help improve %s', 'default'), $name));
                     ?></strong>
                 </p>
-                <p><?php echo esc_html__('Allow this plugin to send non-sensitive diagnostics (WordPress/PHP/WooCommerce versions, plugin version, which features you use, a one-way hash of your site URL) so we can fix bugs and prioritize features. This is optional and off by default.', 'default'); ?></p>
-                <p>
-                    <label><input type="checkbox" name="usage" value="1"> <?php echo esc_html__('Share usage & diagnostic data', 'default'); ?></label><br>
-                    <label><input type="checkbox" name="marketing" value="1"> <?php echo esc_html__('Also email me important product updates (uses your admin email)', 'default'); ?></label>
+                <p><?php echo esc_html__('Allow this plugin to send non-sensitive diagnostics (WordPress/PHP/WooCommerce versions, plugin version, which features you use, a one-way hash of your site URL) so we can fix bugs and prioritize features. This is optional and off by default.', 'default'); ?>
+                    <a href="<?php echo esc_url($this->plugin->config('privacy_url')); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
                 </p>
                 <p>
-                    <button type="submit" name="decision" value="allow" class="button button-primary"><?php echo esc_html__('Allow selected', 'default'); ?></button>
-                    <button type="submit" name="decision" value="skip" class="button"><?php echo esc_html__('Skip', 'default'); ?></button>
-                    <a href="<?php echo esc_url($this->plugin->config('privacy_url')); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
+                    <button type="submit" name="decision" value="allow_usage" class="button button-primary"><?php echo esc_html__('Share usage & diagnostic data', 'default'); ?></button>
+                    <button type="submit" name="decision" value="skip" class="button"><?php echo esc_html__('No thanks', 'default'); ?></button>
                 </p>
             </form>
         </div>
@@ -137,10 +134,11 @@ class Consent
 
         $decision = isset($_POST['decision']) ? sanitize_text_field(wp_unslash($_POST['decision'])) : 'skip';
 
-        if ('allow' === $decision) {
-            $usage = ! empty($_POST['usage']);
-            $marketing = ! empty($_POST['marketing']);
-            $this->store($usage, $marketing);
+        // One-tap buttons: "Share usage & diagnostic data" opts into the usage
+        // tier; marketing (product emails) is opted into later from the
+        // Settings -> Data Sharing page. Anything else is a decline.
+        if ('allow_usage' === $decision) {
+            $this->store(true, false);
         } else {
             $this->store(false, false);
         }
