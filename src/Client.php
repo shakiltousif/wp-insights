@@ -126,7 +126,10 @@ class Client
             $body = wp_json_encode($payload);
 
             $args = array(
-                'timeout' => 2,
+                // Non-blocking (install/heartbeat) fire-and-forget: short timeout so a
+                // dead endpoint can never delay admin. Blocking (deactivation/delete)
+                // wants delivery, but is still bounded.
+                'timeout' => $nonBlocking ? 1 : 2,
                 'blocking' => ! $nonBlocking,
                 'redirection' => 0,
                 'headers' => array(
