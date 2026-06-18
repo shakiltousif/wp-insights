@@ -101,7 +101,16 @@ class Consent
                         echo esc_html(sprintf(__('Help improve %s', 'default'), $name));
                     ?></strong>
                 </p>
-                <p><?php echo esc_html__('Allow this plugin to send non-sensitive diagnostics (WordPress/PHP/WooCommerce versions, plugin version, which features you use, a one-way hash of your site URL) so we can fix bugs and prioritize features. This is optional and off by default.', 'default'); ?>
+                <p><?php
+                    // Plugins may override the data summary (the parenthesized list) to match
+                    // exactly what they send; falls back to the generic diagnostics list.
+                    $shakvaro_summary = $this->plugin->config('data_summary');
+                    if (! is_string($shakvaro_summary) || '' === $shakvaro_summary) {
+                        $shakvaro_summary = __('WordPress/PHP/WooCommerce versions, plugin version, which features you use, a one-way hash of your site URL', 'default');
+                    }
+                    /* translators: %s: list of data points the plugin collects */
+                    echo esc_html(sprintf(__('Allow this plugin to send non-sensitive diagnostics (%s) so we can fix bugs and prioritize features. This is optional and off by default.', 'default'), $shakvaro_summary));
+                ?>
                     <a href="<?php echo esc_url($this->plugin->config('privacy_url')); ?>" target="_blank" rel="noopener"><?php echo esc_html__('Privacy Policy', 'default'); ?></a>
                 </p>
                 <p>
