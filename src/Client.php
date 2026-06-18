@@ -31,6 +31,11 @@ class Client
         $this->send('heartbeat');
     }
 
+    public function send_activation(): void
+    {
+        $this->send('activation');
+    }
+
     public function send_deactivation(string $reasonCode = '', string $reasonText = ''): void
     {
         $this->send('deactivation', array(
