@@ -68,6 +68,19 @@ class Insights
      *
      * @param array{slug:string,api_key?:string,signing_secret?:string,endpoint?:string} $config
      */
+    /**
+     * Mark a (re)activation so the next admin load sends an `activation` ping.
+     * Call from the host plugin's register_activation_hook callback. Self-contained
+     * (no SDK boot needed during the activation request).
+     */
+    public static function mark_activated(string $slug): void
+    {
+        if ($slug === '' || ! function_exists('update_option')) {
+            return;
+        }
+        update_option('shakvaro_insights_pending_activation_' . md5($slug), 1, false);
+    }
+
     public static function uninstall(array $config): void
     {
         if (empty($config['slug']) || ! function_exists('get_option')) {
@@ -119,6 +132,7 @@ class Insights
         delete_option($key('installed_at'));
         delete_option($key('last_version'));
         delete_option($key('notice_dismissed'));
+        delete_option('shakvaro_insights_pending_activation_' . $hash);
 
         if (function_exists('wp_clear_scheduled_hook')) {
             wp_clear_scheduled_hook($heartbeat_hook);

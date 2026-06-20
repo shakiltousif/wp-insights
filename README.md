@@ -63,10 +63,23 @@ add_action( 'shakvaro_wp_insights_loaded', function () {
 
 > `api_key` + `signing_secret` come from the backend `plugins` row (the seeder prints them). The signing_secret is the server's `secret_salt`; it ships in the plugin and is used for HMAC request signing (spam-deterrence + rate-limiting, not hard auth).
 
+## Report (re)activations
+
+After a user opts in, deactivates, then reactivates, the SDK cannot detect this automatically (the host isn't loaded when its own activation hook runs). Add one line to report it:
+
+```php
+register_activation_hook( __FILE__, function () {
+    \Shakvaro\WP\Insights\Insights::mark_activated( 'your-plugin-slug' );
+} );
+```
+
+`mark_activated()` sets a lightweight flag. The SDK reads and clears it on the next `admin_init` and sends an `activation` ping — consent-gated, fail-silent.
+
 ## What it does
 
 - Shows a two-tier opt-in admin notice (usage / marketing). Nothing is sent until the user opts in.
 - On usage opt-in: sends an `install` ping, then a weekly `heartbeat` (WP-Cron).
+- On (re)activation: sends an `activation` ping (requires `mark_activated()` call above).
 - Collects: WP/PHP/MySQL/WooCommerce versions, theme, locale, multisite, server; plugin version; declared feature states; one-way hash of the site URL + site title. Admin email only on marketing opt-in.
 - Deactivation survey → `deactivation` ping with reason.
 - Opt-out / uninstall → `delete` ping + local cleanup.

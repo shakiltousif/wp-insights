@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
 // bundled copy registers its OWN version (a shared constant would make every
 // copy report whichever loaded first, breaking version negotiation).
 // Bump this literal on every SDK release.
-$shakvaro_wp_insights_this_version = '1.2.5';
+$shakvaro_wp_insights_this_version = '1.2.6';
 
 if (! isset($GLOBALS['shakvaro_wp_insights_versions']) || ! is_array($GLOBALS['shakvaro_wp_insights_versions'])) {
     $GLOBALS['shakvaro_wp_insights_versions'] = array();

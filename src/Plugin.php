@@ -51,7 +51,26 @@ class Plugin
 
         (new Uninstall($this))->init();
 
+        add_action('admin_init', array($this, 'maybe_send_activation'));
         add_action('admin_init', array($this, 'maybe_track_version'));
+    }
+
+    /**
+     * Send an `activation` ping if mark_activated() was called during the host's
+     * activation request (which runs before the SDK boots). Fires once per
+     * (re)activation, consent-gated, fail-silent.
+     */
+    public function maybe_send_activation(): void
+    {
+        $key = 'shakvaro_insights_pending_activation_' . md5($this->slug());
+        if (! get_option($key)) {
+            return;
+        }
+        delete_option($key);
+
+        if ($this->consent->has_usage()) {
+            $this->client->send_activation();
+        }
     }
 
     /**
