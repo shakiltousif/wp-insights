@@ -167,10 +167,30 @@ class Plugin
         $uuid = get_option($key);
 
         if (! $uuid) {
-            $uuid = wp_generate_uuid4();
+            // Deterministic per site+plugin: a delete+reinstall regenerates the
+            // SAME uuid, so the backend reuses the existing install record instead
+            // of creating a duplicate row. Derived from the site URL + slug; still
+            // anonymous (the backend only ever stores the one-way url_hash).
+            $uuid = self::derive_uuid($this->slug());
             update_option($key, $uuid, false);
         }
 
         return $uuid;
+    }
+
+    /**
+     * Build a stable, v4-shaped UUID from the site URL + plugin slug.
+     */
+    private static function derive_uuid(string $slug): string
+    {
+        $base = function_exists('home_url') ? home_url() : (function_exists('site_url') ? site_url() : '');
+        $hex  = substr(hash('sha256', $base . '|shakvaro-wp-insights|' . $slug), 0, 32);
+        // Force the version (4) and variant (8) nibbles so the value is a valid v4-shaped UUID.
+        $hex[12] = '4';
+        $variant = array('8', '9', 'a', 'b');
+        $hex[16] = $variant[hexdec($hex[16]) % 4];
+
+        return substr($hex, 0, 8) . '-' . substr($hex, 8, 4) . '-' . substr($hex, 12, 4)
+            . '-' . substr($hex, 16, 4) . '-' . substr($hex, 20, 12);
     }
 }
